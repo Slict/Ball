@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -40,9 +41,11 @@ public class Main extends ApplicationAdapter {
         batch = new SpriteBatch();
         imgBall = new Texture(Gdx.files.internal("ball.png"));
         sprBall = new Sprite(imgBall);
+        
         imgBox = new Texture(Gdx.files.internal("box.png"));
         move = new movement();
         setBox();
+        
     }
 
     @Override
@@ -51,20 +54,24 @@ public class Main extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         stuff();
+
         batch.draw(sprBall, nX, nY);
         batch.end();
         shape.begin(ShapeType.Filled);
         shape.setColor(0, 0, 0, 1);
-        shape.rect(rect2.getX(), rect2.getY(), rect2.getWidth(), rect2.getHeight());
-      //  shape.rect(rect1.getX(), rect1.getY(), rect1.getWidth(), rect1.getHeight());
         for (int i = 0; i < arRect.length; i++) {
             shape.rect(arRect[i].getX(), arRect[i].getY(), arRect[i].getWidth(), arRect[i].getHeight());
         }
         shape.end();
+        shape.begin(ShapeType.Filled);
+        shape.setColor(0, 10, 0, 1);
+        shape.rect(rect2.getX(), rect2.getY(), rect2.getWidth(), rect2.getHeight());
+        shape.end();
+
     }
 
     public void stuff() {
-        if (Gdx.input.isKeyPressed('r')) {
+        if (Gdx.input.isKeyJustPressed(Keys.R)) {
             reload();
         }
         if (move.nLives == 0) {
@@ -73,7 +80,7 @@ public class Main extends ApplicationAdapter {
         nX = move.getX();
         nY = move.getY();
         rect1 = new Rectangle(nX, nY, sprBall.getWidth(), sprBall.getHeight());
-        rect2 = new Rectangle(0, Gdx.graphics.getHeight() - 64, Gdx.graphics.getWidth(), 64);
+        rect2 = new Rectangle(0, Gdx.graphics.getHeight() - 64, Gdx.graphics.getWidth(), 65);
         move.Move();
         move.isHitBox(rect1, arRect);
         move.isHitBar(rect1, rect2);
@@ -88,6 +95,7 @@ public class Main extends ApplicationAdapter {
     public void reload() {
         int nSize = arRect.length;
         arRect = new Rectangle[nSize];
+        setBox();
     }
 
 }

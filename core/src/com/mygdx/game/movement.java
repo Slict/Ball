@@ -22,7 +22,7 @@ public class movement {
     int nVx = 0;
     int nLives = 3;
     Boolean bDir = null;
-    Main main;
+    Main main = new Main();
 
     public void Move() {
         Edge(nX, nY);
@@ -59,23 +59,6 @@ public class movement {
             restart();
 
         }
-//        if (nX <= 0) {
-//            nX += 20;
-//            nVx = 0;
-//            nVy = 0;
-//        } else if (nX + 16 >= Gdx.graphics.getWidth()) {
-//            nX -= 20;
-//            nVx = 0;
-//            nVy = 0;
-//        } else if (nY <= 0) {
-//            nY += 20;
-//            nVx = 0;
-//            nVy = 0;
-//        } else if (nY + 16 >= Gdx.graphics.getHeight()) {
-//            nY-=20;
-//            nVx = 0;
-//            nVy = 0;
-//        }
     }
 
     private void restart() {
