@@ -65,23 +65,23 @@ public class movement {
         nLives--;
         nVy = 0;
         nVx = 0;
-        nX = 100;
-        nY = 100;
+        nX = 50;
+        nY = 50;
     }
 
     private void XY() {
         if (Gdx.input.isKeyJustPressed(Keys.UP)) {
-            nVy = 5;
+            nVy = 3;
             nVx = 0;
         } else if (Gdx.input.isKeyJustPressed(Keys.DOWN)) {
-            nVy = -5;
+            nVy = -3;
             nVx = 0;
         } else if (Gdx.input.isKeyJustPressed(Keys.RIGHT)) {
             nVy = 0;
-            nVx = 5;
+            nVx = 3;
         } else if (Gdx.input.isKeyJustPressed(Keys.LEFT)) {
             nVy = 0;
-            nVx = -5;
+            nVx = -3;
         }
     }
 }

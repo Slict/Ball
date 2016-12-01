@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -26,26 +27,33 @@ public class Main extends ApplicationAdapter {
     SpriteBatch batch;
     Texture imgBall;
     Texture imgBox;
+    Texture imgHeart;
     Sprite sprBall;
     Sprite sprBox;
+    Sprite sprHeart;
     movement move;
     int nX;
     int nY;
-    Rectangle[] arRect = new Rectangle[5];
+    int nHeartX = 600;
+    Rectangle[] arRect = new Rectangle[16];
     Random rn = new Random();
     Rectangle rect1;
     Rectangle rect2;
+    Build build;
+    ArrayList<Sprite> bulletArrayList = new ArrayList<Sprite>();
+    int nLives = 3;
 
+    @Override
     public void create() {
         shape = new ShapeRenderer();
         batch = new SpriteBatch();
+        build = new Build();
         imgBall = new Texture(Gdx.files.internal("ball.png"));
         sprBall = new Sprite(imgBall);
-        
-        imgBox = new Texture(Gdx.files.internal("box.png"));
+        imgHeart = new Texture(Gdx.files.internal("heart.png"));
+        sprHeart = new Sprite(imgHeart);
         move = new movement();
-        setBox();
-        
+        arRect = build.build1(arRect);
     }
 
     @Override
@@ -54,7 +62,6 @@ public class Main extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         stuff();
-
         batch.draw(sprBall, nX, nY);
         batch.end();
         shape.begin(ShapeType.Filled);
@@ -67,12 +74,24 @@ public class Main extends ApplicationAdapter {
         shape.setColor(0, 10, 0, 1);
         shape.rect(rect2.getX(), rect2.getY(), rect2.getWidth(), rect2.getHeight());
         shape.end();
+        batch.begin();
+        for (int i = 0; i < move.nLives; i++) {
+            batch.draw(sprHeart, nHeartX, 550);
+            nHeartX += 50;
+        }
+        nHeartX = 600;
+        batch.end();
 
     }
 
     public void stuff() {
-        if (Gdx.input.isKeyJustPressed(Keys.R)) {
-            reload();
+        if (Gdx.input.isKeyPressed(Keys.NUM_1)) {
+            arRect = new Rectangle[16];
+
+            arRect = build.build1(arRect);
+        } else if (Gdx.input.isKeyPressed(Keys.NUM_2)) {
+            arRect = new Rectangle[16];
+            arRect = build.build2(arRect);
         }
         if (move.nLives == 0) {
             System.exit(0);
@@ -94,7 +113,7 @@ public class Main extends ApplicationAdapter {
 
     public void reload() {
         int nSize = arRect.length;
-        arRect = new Rectangle[nSize];
+        arRect = new Rectangle[arRect.length];
         setBox();
     }
 
